@@ -33,7 +33,7 @@ const CreatePost = () => {
 
     try {
       const response = await axios.post(
-        "https://postapp01.vercel.app/api/post",
+        "https://postappapi.vercel.app/api/post",
         formData,
         {
           headers: {

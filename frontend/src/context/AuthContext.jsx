@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
   const logoutUser = async () => {
     try {
       await axios.post(
-        "http://localhost:8000/api/user/logout",
+        "https://postappapi.vercel.app/api/user/logout",
         {},
         { withCredentials: true }
       );

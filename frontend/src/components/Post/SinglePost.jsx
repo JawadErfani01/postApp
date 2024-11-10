@@ -13,7 +13,7 @@ const SinglePost = () => {
     const fetchPost = async () => {
       try {
         const response = await axios.get(
-          `https://postapp01.vercel.app/api/post/${id}`
+          `https://postappapi.vercel.app/api/post/${id}`
         ); // Replace with actual API endpoint
         setPost(response.data);
       } catch (err) {

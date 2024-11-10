@@ -27,7 +27,7 @@ const Register = () => {
 
     try {
       const response = await axios.post(
-        "https://postapp01.vercel.app/api/user/register",
+        "https://postappapi.vercel.app/api/user/register",
         formData,
         {
           withCredentials: true,

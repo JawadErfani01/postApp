@@ -14,7 +14,7 @@ const UserInfo = () => {
     const fetchUserInfo = async () => {
       try {
         const response = await axios.get(
-          "https://postapp01.vercel.app/api/user/profile",
+          "https://postappapi.vercel.app/api/user/profile",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,

@@ -20,7 +20,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "https://postapp01.vercel.app/api/user/login",
+        "https://postappapi.vercel.app/api/user/login",
         { email, password },
         { withCredentials: true }
       );

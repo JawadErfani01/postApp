@@ -10,7 +10,7 @@ const DeletePostModal = ({ postId, isOpen, onRequestClose, onDelete }) => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`https://postapp01.vercel.app/api/post/${postId}`, {
+      await axios.delete(`https://postappapi.vercel.app/api/post/${postId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
         withCredentials: true,
       });

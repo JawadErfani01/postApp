@@ -13,7 +13,7 @@ const EditModal = ({ isOpen, onRequestClose, post, onUpdate }) => {
   const handleUpdate = async () => {
     try {
       const response = await axios.put(
-        `https://postapp01.vercel.app/api/post/${post._id}`,
+        `https://postappapi.vercel.app/api/post/${post._id}`,
         { title, description },
         {
           headers: {

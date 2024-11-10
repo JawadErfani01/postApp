@@ -10,7 +10,9 @@ const Home = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get("https://postapp01.vercel.app/api/post"); // Replace with your actual API endpoint
+        const response = await axios.get(
+          "https://postappapi.vercel.app/api/post"
+        ); // Replace with your actual API endpoint
         setPosts(response.data);
       } catch (err) {
         setError("Failed to load posts");

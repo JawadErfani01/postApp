@@ -25,7 +25,7 @@ const PostList = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/post/myPost",
+          "https://postappapi.vercel.app/api/post/myPost",
           {
             headers: { Authorization: `Bearer ${accessToken}` },
             withCredentials: true,
