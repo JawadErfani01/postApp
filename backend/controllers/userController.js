@@ -13,6 +13,8 @@ const generateRefreshToken = (user) =>
   });
 // Register Route with file upload handling
 export const register = async (req, res) => {
+
+
   // Ensure image was uploaded
   if (!req.file) {
     return res.status(400).json({ message: "Please upload an image." });
