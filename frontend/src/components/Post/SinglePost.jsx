@@ -41,7 +41,7 @@ const SinglePost = () => {
         {/* Post Image */}
         {post.postImage && (
           <img
-            src={`http://localhost:8000/${post.postImage.replace(/\\/g, "/")}`}
+            src={post.postImage}
             alt="Post Image"
             className="w-full h-96 object-cover mb-6 rounded-lg"
           />
@@ -51,10 +51,7 @@ const SinglePost = () => {
         <h1 className="text-4xl font-bold text-gray-800 mb-4">{post.title}</h1>
         <div className="flex items-center mb-8">
           <img
-            src={`http://localhost:8000/${post.user.profileImage.replace(
-              /\\/g,
-              "/"
-            )}`}
+            src={post.user.profileImage}
             alt="User Profile"
             className="w-14 h-14 rounded-full mr-4 object-cover border-2 border-gray-200"
           />

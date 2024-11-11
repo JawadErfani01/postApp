@@ -22,6 +22,7 @@ const Home = () => {
     };
     fetchPosts();
   }, []);
+  console.log(posts);
 
   if (loading) return <p className="text-center mt-6">Loading...</p>;
   if (error) return <p className="text-center mt-6 text-red-500">{error}</p>;
@@ -40,10 +41,7 @@ const Home = () => {
             {/* Post Image */}
             {post.postImage && (
               <img
-                src={`http://localhost:8000/${post.postImage.replace(
-                  /\\/g,
-                  "/"
-                )}`}
+                src={post.postImage}
                 alt="Post Image"
                 className="w-full h-52 object-cover"
               />
@@ -54,10 +52,7 @@ const Home = () => {
               {/* User Details */}
               <div className="flex items-center mb-4">
                 <img
-                  src={`http://localhost:8000/${post.user.profileImage.replace(
-                    /\\/g,
-                    "/"
-                  )}`}
+                  src={post.user.profileImage}
                   alt="User Profile"
                   className="w-12 h-12 rounded-full mr-3 object-cover border-2 border-indigo-200 hover:border-indigo-400 transition"
                 />

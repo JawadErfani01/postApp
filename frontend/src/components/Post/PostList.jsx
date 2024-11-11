@@ -16,8 +16,6 @@ const PostList = () => {
 
   const { accessToken } = useAuth();
 
-  console.log(accessToken);
-
   useEffect(() => {
     if (!accessToken) return; // Prevent fetching if no accessToken is present
 
@@ -73,12 +71,10 @@ const PostList = () => {
           prevPosts.filter((post) => post._id !== postId)
         );
       } catch (err) {
-        setError("Failed to delete post. Please try again.");
+        setError(`Failed to delete post. ${err}`);
       }
     }
   };
-
-  console.log(posts);
 
   return (
     <div className="flex items-center justify-center bg-gray-100 py-8">
@@ -96,10 +92,7 @@ const PostList = () => {
               >
                 {post.postImage && (
                   <img
-                    src={`http://localhost:8000/${post.postImage.replace(
-                      /\\/g,
-                      "/"
-                    )}`}
+                    src={post.postImage}
                     alt="Post"
                     className="w-full h-56 object-cover"
                   />

@@ -13,7 +13,7 @@ const Layout = () => {
     const fetchNewAccessToken = async () => {
       try {
         const response = await axios.get(
-          "https://postappapi.vercel.app/api/refresh-token",
+          "https://postappapi.vercel.app/api/user/refresh-token",
           { withCredentials: true }
         );
         setAccessToken(response.data.accessToken);

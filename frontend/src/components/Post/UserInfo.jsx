@@ -41,10 +41,7 @@ const UserInfo = () => {
         <div className="flex-shrink-0 flex items-center justify-center">
           {user.profileImage ? (
             <img
-              src={`http://localhost:8000/${user.profileImage.replace(
-                /\\/g,
-                "/"
-              )}`}
+              src={user.profileImage}
               alt="User profile"
               className="w-32 h-32 rounded-full object-cover border-4 border-blue-300 shadow-md"
             />
