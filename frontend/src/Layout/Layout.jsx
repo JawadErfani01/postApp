@@ -8,7 +8,6 @@ const Layout = () => {
   const { setAccessToken, accessToken, logoutUser } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const fetchNewAccessToken = async () => {
       try {

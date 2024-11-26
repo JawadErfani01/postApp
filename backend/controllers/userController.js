@@ -120,32 +120,40 @@ export const logout = (req, res) => {
 // Refresh Access Token
 export const refreshToken = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
-  console.log(refreshToken);
+  console.log("Refresh Token: ", refreshToken); // Debugging log
 
   if (!refreshToken) {
     return res.status(401).json({ message: "No refresh token provided" });
   }
 
+  // Verify the refresh token
   jwt.verify(
     refreshToken,
     process.env.JWT_REFRESH_SECRET,
     async (err, decoded) => {
-      if (err)
+      if (err) {
+        console.error("JWT Error: ", err); // Log the error for better debugging
         return res.status(403).json({ message: "Invalid refresh token" });
+      }
 
       try {
         const user = await User.findById(decoded.userId); // Fetch the user details again
-        if (!user) return res.status(404).json({ message: "User not found" });
+        if (!user) {
+          return res.status(404).json({ message: "User not found" });
+        }
 
+        // Generate a new access token
         const newAccessToken = generateAccessToken(user);
-        res.json({ accessToken: newAccessToken });
+        return res.json({ accessToken: newAccessToken });
       } catch (error) {
-        res.status(500).json({ message: "Server error: " + error.message });
+        console.error("Error fetching user: ", error);
+        return res
+          .status(500)
+          .json({ message: "Server error: " + error.message });
       }
     }
   );
 };
-
 // Get user profile by ID
 export const getProfile = async (req, res) => {
   try {
