@@ -13,8 +13,6 @@ const generateRefreshToken = (user) =>
   });
 // Register Route with file upload handling
 export const register = async (req, res) => {
-
-
   // Ensure image was uploaded
   if (!req.file) {
     return res.status(400).json({ message: "Please upload an image." });
@@ -120,6 +118,8 @@ export const logout = (req, res) => {
 // Refresh Access Token
 export const refreshToken = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
+  console.log(refreshToken);
+
   if (!refreshToken) {
     return res.status(401).json({ message: "No refresh token provided" });
   }
