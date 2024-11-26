@@ -52,10 +52,11 @@ export const register = async (req, res) => {
 
     // Set refresh token as a cookie
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Set to true in production
-      sameSite: "Strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
+      httpOnly: true, // Cookie is inaccessible via JavaScript
+      secure: true, // Send cookie only over HTTPS
+      sameSite: "None", // Allow cross-domain cookie sharing
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+      domain: "vercel.app", // Enable access across subdomains
     });
 
     res.status(200).json({ accessToken, profileImage: req.file.path });
@@ -90,9 +91,10 @@ export const login = async (req, res) => {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: "Strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      secure: true, // Ensure cookies are sent over HTTPS
+      sameSite: "None", // Required for cross-domain cookies
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      domain: "vercel.app", // Set root domain for subdomain compatibility
     });
 
     res.json({ accessToken });
