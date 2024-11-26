@@ -26,14 +26,10 @@ const Register = () => {
     if (image) formData.append("image", image);
 
     try {
-      const response = await axios.post(
-        "https://postappapi.vercel.app/api/user/register",
-        formData,
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      const response = await axiosInstance.post("/user/register", formData, {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       if (response.status === 200) {
         setAccessToken(response.data.accessToken);

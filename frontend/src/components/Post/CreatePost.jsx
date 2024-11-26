@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
 import Modal from "./Modal";
 import { useAuth } from "../../context/AuthContext";
 import { usePost } from "../../context/PostContext";
+import axiosInstance from "../../../utilities/axiosInstance";
 
 const CreatePost = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,17 +32,13 @@ const CreatePost = () => {
     }
 
     try {
-      const response = await axios.post(
-        "https://postappapi.vercel.app/api/post",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axiosInstance.post("/post", formData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      });
       setPosts([...posts, response.data]);
       setDescription("");
       setTitle("");

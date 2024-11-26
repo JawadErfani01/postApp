@@ -3,8 +3,8 @@ import { useAuth } from "../../context/AuthContext";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import EditModal from "./EditModal";
 import Modal from "react-modal";
-import { usePost } from "../../context/PostContext";
-import axios from "axios";
+// axios
+import axiosInstance from "../../../utilities/axiosInstance";
 
 Modal.setAppElement("#root");
 
@@ -22,14 +22,10 @@ const PostList = () => {
     const fetchPosts = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          "https://postappapi.vercel.app/api/post/myPost",
-          {
-            headers: { Authorization: `Bearer ${accessToken}` },
-            withCredentials: true,
-          }
-        );
-        console.log(response);
+        const response = await axiosInstance.get("/post/myPost", {
+          headers: { Authorization: `Bearer ${accessToken}` },
+          withCredentials: true,
+        });
 
         setPosts(response.data);
         setLoading(false);
@@ -63,7 +59,7 @@ const PostList = () => {
     );
     if (confirmDelete) {
       try {
-        await axios.delete(`https://postapp01.vercel.app/api/post/${postId}`, {
+        await axiosInstance.delete(`/post/${postId}`, {
           headers: { Authorization: `Bearer ${accessToken}` },
           withCredentials: true,
         });

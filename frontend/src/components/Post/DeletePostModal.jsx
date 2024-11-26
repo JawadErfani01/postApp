@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
+import axiosInstance from "../../../utilities/axiosInstance";
 
 Modal.setAppElement("#root");
 
@@ -10,7 +10,7 @@ const DeletePostModal = ({ postId, isOpen, onRequestClose, onDelete }) => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`https://postappapi.vercel.app/api/post/${postId}`, {
+      await axiosInstance.delete(`/post/${postId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
         withCredentials: true,
       });

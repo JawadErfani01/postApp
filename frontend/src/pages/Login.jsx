@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import axiosInstance from "../../utilities/axiosInstance";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -19,8 +19,8 @@ const Login = () => {
     setSuccess(null);
 
     try {
-      const response = await axios.post(
-        "https://postappapi.vercel.app/api/user/login",
+      const response = await axiosInstance.post(
+        "/user/login",
         { email, password },
         { withCredentials: true }
       );

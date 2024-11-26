@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import axios from "axios";
 import { FaHome, FaSignOutAlt, FaSignInAlt, FaUserPlus } from "react-icons/fa";
+import axiosInstance from "../../utilities/axiosInstance";
 
 const Layout = () => {
   const { setAccessToken, accessToken, logoutUser } = useAuth();
@@ -12,10 +12,9 @@ const Layout = () => {
   useEffect(() => {
     const fetchNewAccessToken = async () => {
       try {
-        const response = await axios.get(
-          "https://postappapi.vercel.app/api/user/refresh-token",
-          { withCredentials: true }
-        );
+        const response = await axiosInstance.get("/user/refresh-token", {
+          withCredentials: true,
+        });
         setAccessToken(response.data.accessToken);
       } catch (err) {
         console.error("Could not refresh access token", err);
@@ -33,6 +32,7 @@ const Layout = () => {
   };
 
   if (loading) return <p className="text-center py-6">Loading...</p>;
+  console.log(accessToken);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">

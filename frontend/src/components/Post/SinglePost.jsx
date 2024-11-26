@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom"; // Assuming react-router-dom is used
+import axiosInstance from "../../../utilities/axiosInstance";
 
 const SinglePost = () => {
   const { id } = useParams(); // Extract post ID from URL
@@ -12,9 +12,7 @@ const SinglePost = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(
-          `https://postappapi.vercel.app/api/post/${id}`
-        ); // Replace with actual API endpoint
+        const response = await axiosInstance.get(`/post/${id}`); // Replace with actual API endpoint
         setPost(response.data);
       } catch (err) {
         setError("Failed to load the post.");

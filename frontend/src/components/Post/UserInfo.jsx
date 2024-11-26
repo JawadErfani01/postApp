@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { usePost } from "../../context/PostContext";
 import CreatePost from "./CreatePost";
-import axios from "axios";
 import { FaUserCircle } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext";
+import axiosInstance from "../../../utilities/axiosInstance";
 
 const UserInfo = () => {
   const { user, setUser } = usePost();
@@ -13,14 +13,11 @@ const UserInfo = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const response = await axios.get(
-          "https://postappapi.vercel.app/api/user/profile",
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const response = await axiosInstance.get("/user/profile", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
         setUser(response.data);
       } catch (error) {
         console.error("Failed to fetch user info:", error);

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import axiosInstance from "../../utilities/axiosInstance";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -10,9 +11,7 @@ const Home = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(
-          "https://postappapi.vercel.app/api/post"
-        ); // Replace with your actual API endpoint
+        const response = await axiosInstance.get("/post"); // Replace with your actual API endpoint
         setPosts(response.data);
       } catch (err) {
         setError("Failed to load posts");
@@ -22,7 +21,6 @@ const Home = () => {
     };
     fetchPosts();
   }, []);
-  console.log(posts);
 
   if (loading) return <p className="text-center mt-6">Loading...</p>;
   if (error) return <p className="text-center mt-6 text-red-500">{error}</p>;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
+import axiosInstance from "../../../utilities/axiosInstance";
 
 Modal.setAppElement("#root");
 
@@ -12,8 +12,8 @@ const EditModal = ({ isOpen, onRequestClose, post, onUpdate }) => {
 
   const handleUpdate = async () => {
     try {
-      const response = await axios.put(
-        `https://postappapi.vercel.app/api/post/${post._id}`,
+      const response = await axiosInstance.put(
+        `/post/${post._id}`,
         { title, description },
         {
           headers: {
