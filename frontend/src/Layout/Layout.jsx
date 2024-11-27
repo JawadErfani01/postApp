@@ -31,7 +31,6 @@ const Layout = () => {
   };
 
   if (loading) return <p className="text-center py-6">Loading...</p>;
-  console.log(accessToken);
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">

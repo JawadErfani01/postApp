@@ -8,9 +8,11 @@ Modal.setAppElement("#root");
 const EditModal = ({ isOpen, onRequestClose, post, onUpdate }) => {
   const [title, setTitle] = useState(post.title);
   const [description, setDescription] = useState(post.description);
+  const [loading, setLoading] = useState(false); // Add loading state
   const { accessToken } = useAuth();
 
   const handleUpdate = async () => {
+    setLoading(true); // Set loading to true
     try {
       const response = await axiosInstance.put(
         `/post/${post._id}`,
@@ -25,6 +27,8 @@ const EditModal = ({ isOpen, onRequestClose, post, onUpdate }) => {
       onRequestClose();
     } catch (error) {
       console.error("Failed to update post:", error);
+    } finally {
+      setLoading(false); // Set loading to false
     }
   };
 
@@ -54,14 +58,20 @@ const EditModal = ({ isOpen, onRequestClose, post, onUpdate }) => {
           <button
             className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
             onClick={onRequestClose}
+            disabled={loading} // Disable button while loading
           >
             Cancel
           </button>
           <button
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            className={`px-4 py-2 text-white rounded ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600"
+            }`}
             onClick={handleUpdate}
+            disabled={loading} // Disable button while loading
           >
-            Save Changes
+            {loading ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </div>

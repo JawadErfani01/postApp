@@ -51,21 +51,27 @@ const getUserPost = async (req, res) => {
   }
 };
 
-// Create a new post
+// create post
 const createPost = async (req, res) => {
   const { title, description } = req.body;
+  // Check if the file is uploaded
+  const postImage = req.file ? req.file.path : null;
+
   if (!title || !description) {
     return res.status(400).json({ message: "Please enter all fields" });
   }
+
   try {
     const newPost = await Post.create({
       title,
       description,
-      user: req.userId,
-      postImage: req.file.path,
+      user: req.userId, // Ensure this is set by middleware
+      postImage,
     });
+
     res.status(201).json(newPost);
   } catch (error) {
+    console.error("Error creating post:", error);
     res
       .status(500)
       .json({ message: "Error creating post", error: error.message });

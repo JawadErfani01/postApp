@@ -5,14 +5,16 @@ import EditModal from "./EditModal";
 import Modal from "react-modal";
 // axios
 import axiosInstance from "../../../utilities/axiosInstance";
+import { usePost } from "../../context/PostContext";
 
 Modal.setAppElement("#root");
 
 const PostList = () => {
   const [selectedPost, setSelectedPost] = useState(null);
-  const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(true);
+  // const [error, setError] = useState(true);
+  const { setPosts, posts, error, setError } = usePost();
 
   const { accessToken } = useAuth();
 
