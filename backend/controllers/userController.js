@@ -154,7 +154,7 @@ export const refreshToken = async (req, res) => {
     }
   );
 };
-// Get user profile by ID
+// Get user profile by id
 export const getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.userId).select("-password"); // Exclude password
