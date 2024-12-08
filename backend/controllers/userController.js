@@ -121,7 +121,7 @@ export const logout = (req, res) => {
 // Refresh Access Token
 export const refreshToken = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
-  
+
   if (!refreshToken) {
     return res.status(401).json({ message: "No refresh token provided" });
   }
@@ -138,6 +138,7 @@ export const refreshToken = async (req, res) => {
 
       try {
         const user = await User.findById(decoded.userId); // Fetch the user details again
+
         if (!user) {
           return res.status(404).json({ message: "User not found" });
         }

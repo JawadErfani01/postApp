@@ -50,15 +50,15 @@ const Home = () => {
               {/* User Details */}
               <div className="flex items-center mb-4">
                 <img
-                  src={post.user.profileImage}
+                  src={post?.user?.profileImage}
                   alt="User Profile"
                   className="w-12 h-12 rounded-full mr-3 object-cover border-2 border-indigo-200 hover:border-indigo-400 transition"
                 />
                 <div>
                   <h2 className="font-semibold text-gray-700 text-lg">
-                    {post.user.name}
+                    {post?.user?.name}
                   </h2>
-                  <p className="text-sm text-gray-500">{post.user.email}</p>
+                  <p className="text-sm text-gray-500">{post?.user?.email}</p>
                 </div>
               </div>
 
