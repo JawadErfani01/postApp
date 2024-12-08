@@ -27,22 +27,25 @@ app.use("/uploads", express.static(uploadPath));
 app.use(cookieParser());
 
 // CORS Configuration
-const allowedOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(",")
-  : ["http://localhost:5173", "https://postapp01.vercel.app"];
+const allowedOrigins = [
+  "http://localhost:5173", // Local development
+  "https://postapp01.vercel.app" // Deployed frontend URL
+];
 
 app.use(
   cors({
     origin: function (origin, callback) {
+      // Allow requests with no origin (like Postman) or matching allowed origins
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true,
+    credentials: true, // Allow cookies to be sent with requests
   })
 );
+
 
 // Handle CORS Errors
 app.use((err, req, res, next) => {
