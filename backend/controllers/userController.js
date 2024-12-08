@@ -11,7 +11,8 @@ const generateRefreshToken = (user) =>
   jwt.sign({ userId: user._id }, process.env.JWT_REFRESH_SECRET, {
     expiresIn: process.env.JWT_REFRESH_EXPIRATION,
   });
-// Register Route with file upload handling
+
+// Register User
 export const register = async (req, res) => {
   // Ensure image was uploaded
   if (!req.file) {
@@ -33,7 +34,7 @@ export const register = async (req, res) => {
     }
 
     // Hash the password before saving
-    const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS) || 10;
+    const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS || "10");
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Create new user with image path included
@@ -52,11 +53,11 @@ export const register = async (req, res) => {
 
     // Set refresh token as a cookie
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true, // Cookie is inaccessible via JavaScript
-      secure: true, // Send cookie only over HTTPS
-      sameSite: "None", // Allow cross-domain cookie sharing
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
-      domain: "vercel.app", // Enable access across subdomains
+      domain: process.env.COOKIE_DOMAIN || "localhost",
     });
 
     res.status(200).json({ accessToken, profileImage: req.file.path });
@@ -120,8 +121,7 @@ export const logout = (req, res) => {
 // Refresh Access Token
 export const refreshToken = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
-  console.log("Refresh Token: ", refreshToken); // Debugging log
-
+  
   if (!refreshToken) {
     return res.status(401).json({ message: "No refresh token provided" });
   }

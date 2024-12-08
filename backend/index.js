@@ -7,31 +7,33 @@ import userRoute from "./routes/userRoutes.js";
 import connectDB from "./config/db.js";
 import path from "path";
 import { fileURLToPath } from "url";
-// import multer from "multer";
+import fs from "fs";
+
 const PORT = process.env.PORT || 5000;
 
-// middleware
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Serve images from the 'upload' folder
-
-// Get __dirname for ES modules
+// Serve images from the 'uploads' folder
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+const uploadPath = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath);
+}
+app.use("/uploads", express.static(uploadPath));
 
 app.use(cookieParser());
 
-const allowedOrigins = [
-  "http://localhost:5173", // Development origin
-  "https://postapp01.vercel.app", // Production origin
-];
+// CORS Configuration
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",")
+  : ["http://localhost:5173", "https://postapp01.vercel.app"];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
@@ -42,22 +44,28 @@ app.use(
   })
 );
 
-// app.use(
-//   cors({
-//     origin: "http://localhost:5173",
-//     credentials: true,
-//   })
-// );
+// Handle CORS Errors
+app.use((err, req, res, next) => {
+  if (err instanceof Error && err.message === "Not allowed by CORS") {
+    res.status(403).json({ message: "CORS error: Origin not allowed" });
+  } else {
+    next(err);
+  }
+});
+
+// Root Route
 app.get("/", (req, res) => {
   res.json("Hello");
 });
-//db
+
+// Database Connection
 connectDB();
 
-//routes
+// Routes
 app.use("/api/user", userRoute);
 app.use("/api/post", postRout);
 
+// Start the Server
 app.listen(PORT, () => {
   console.log(`Server is started on Port ${PORT}`);
 });

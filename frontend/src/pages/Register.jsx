@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import axiosInstance from "../../utilities/axiosInstance";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -11,6 +11,7 @@ const Register = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [loading, setLoading] = useState(false); // New loading state
   const { setAccessToken } = useAuth();
   const navigate = useNavigate();
 
@@ -18,6 +19,7 @@ const Register = () => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
+    setLoading(true);
 
     const formData = new FormData();
     formData.append("name", name);
@@ -33,15 +35,15 @@ const Register = () => {
 
       if (response.status === 200) {
         setAccessToken(response.data.accessToken);
-        navigate("/post");
         setSuccess("Registration successful!");
+        navigate("/post");
       }
     } catch (err) {
-      if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else {
-        setError("Registration failed. Please try again.");
-      }
+      const message =
+        err.response?.data?.message || "Registration failed. Please try again.";
+      setError(message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,7 +66,6 @@ const Register = () => {
         {success && <p className="text-sm text-green-500">{success}</p>}
 
         <form onSubmit={handleRegister} className="space-y-6">
-          {/* Full Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Full Name
@@ -79,7 +80,6 @@ const Register = () => {
             />
           </div>
 
-          {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Email Address
@@ -94,7 +94,6 @@ const Register = () => {
             />
           </div>
 
-          {/* Password */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Password
@@ -109,7 +108,6 @@ const Register = () => {
             />
           </div>
 
-          {/* Image Upload */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Profile Image
@@ -131,13 +129,13 @@ const Register = () => {
             )}
           </div>
 
-          {/* Submit Button */}
           <div className="flex items-center justify-between">
             <button
               type="submit"
+              disabled={loading}
               className="w-full py-3 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
-              Create Account
+              {loading ? "Creating..." : "Create Account"}
             </button>
           </div>
 

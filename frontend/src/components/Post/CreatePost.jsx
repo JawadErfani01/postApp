@@ -52,7 +52,6 @@ const CreatePost = () => {
       setError(null);
 
       setIsModalOpen(false); // Close modal immediately
-      console.log("Post created successfully");
     } catch (err) {
       setError("Failed to create post");
     } finally {
