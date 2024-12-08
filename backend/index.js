@@ -26,26 +26,25 @@ app.use("/uploads", express.static(uploadPath));
 
 app.use(cookieParser());
 
-// CORS Configuration
+// Hardcoded CORS Configuration
 const allowedOrigins = [
-  "http://localhost:5173", // Local development
-  "https://postapp01.vercel.app" // Deployed frontend URL
+  "http://localhost:5173", // Local development frontend URL
+  "https://postapp01.vercel.app", // Deployed frontend URL
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (like Postman) or matching allowed origins
+      // Allow requests with no origin (e.g., Postman) or matching allowed origins
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true, // Allow cookies to be sent with requests
+    credentials: true, // Enable credentials like cookies
   })
 );
-
 
 // Handle CORS Errors
 app.use((err, req, res, next) => {
