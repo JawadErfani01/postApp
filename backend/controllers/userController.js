@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+const isProduction = process.env.NODE_ENV === "production";
 
 // Generate tokens
 const generateAccessToken = (user) =>
@@ -44,14 +45,22 @@ export const register = async (req, res) => {
 
     const accessToken = generateAccessToken(newUser);
     const refreshToken = generateRefreshToken(newUser);
-
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
+      httpOnly: isProduction,
       secure: true,
-      sameSite: "None",
+      sameSite: isProduction ? "None" : "Lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      domain: "postappapi.vercel.app",
+      domain: isProduction ? "postappapi.vercel.app" : undefined,
     });
+
+    // it work in deployment
+    // res.cookie("refreshToken", refreshToken, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: "None",
+    //   maxAge: 7 * 24 * 60 * 60 * 1000,
+    //   domain: "postappapi.vercel.app",
+    // });
 
     res.status(200).json({ accessToken, profileImage: req.file.path });
   } catch (error) {
@@ -82,11 +91,11 @@ export const login = async (req, res) => {
     const refreshToken = generateRefreshToken(user);
 
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
+      httpOnly: isProduction,
       secure: true,
-      sameSite: "None",
+      sameSite: isProduction ? "None" : "Lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      domain: "postappapi.vercel.app",
+      domain: isProduction ? "postappapi.vercel.app" : undefined,
     });
 
     res.json({ accessToken });
@@ -113,7 +122,6 @@ export const logout = (req, res) => {
 // Refresh Access Token
 export const refreshToken = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
-  console.log(req.cookies);
 
   if (!refreshToken) {
     return res.status(401).json({ message: "No refresh token provided" });
