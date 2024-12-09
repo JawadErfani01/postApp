@@ -1,7 +1,8 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-const isProduction = process.env.NODE_ENV === "production";
+//this is production
+const isProduction = true;
 
 // Generate tokens
 const generateAccessToken = (user) =>
