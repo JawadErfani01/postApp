@@ -11,9 +11,7 @@ const Layout = () => {
   useEffect(() => {
     const fetchNewAccessToken = async () => {
       try {
-        const response = await axiosInstance.get("/user/refresh-token", {
-          withCredentials: true,
-        });
+        const response = await axiosInstance.get("/user/refreshToken");
         setAccessToken(response.data.accessToken);
       } catch (err) {
         console.error("Could not refresh access token", err);

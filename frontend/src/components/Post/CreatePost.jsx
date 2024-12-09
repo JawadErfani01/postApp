@@ -40,8 +40,7 @@ const CreatePost = () => {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "multipart/form-data",
-        },
-        withCredentials: true,
+        }
       });
 
       setPosts([...posts, response.data]);

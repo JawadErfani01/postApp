@@ -12,7 +12,6 @@ const DeletePostModal = ({ postId, isOpen, onRequestClose, onDelete }) => {
     try {
       await axiosInstance.delete(`/post/${postId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
-        withCredentials: true,
       });
       onDelete(postId); // Callback to remove the deleted post from the list
       onRequestClose(); // Close the modal

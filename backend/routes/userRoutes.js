@@ -19,7 +19,7 @@ router.post("/login", login);
 // logout route
 router.post("/logout", logout);
 // refresh token
-router.get("/refresh-token", refreshToken);
+router.get("/refreshToken", refreshToken);
 // Get user profile route
 router.get("/profile", authenticateToken, getProfile); // Protect the profile route
 

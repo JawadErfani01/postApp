@@ -29,7 +29,6 @@ const Register = () => {
 
     try {
       const response = await axiosInstance.post("/user/register", formData, {
-        withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       });
 

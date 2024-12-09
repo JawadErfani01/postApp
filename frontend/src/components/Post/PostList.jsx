@@ -26,7 +26,6 @@ const PostList = () => {
       try {
         const response = await axiosInstance.get("/post/myPost", {
           headers: { Authorization: `Bearer ${accessToken}` },
-          withCredentials: true,
         });
 
         setPosts(response.data);
@@ -63,7 +62,6 @@ const PostList = () => {
       try {
         await axiosInstance.delete(`/post/${postId}`, {
           headers: { Authorization: `Bearer ${accessToken}` },
-          withCredentials: true,
         });
         setPosts((prevPosts) =>
           prevPosts.filter((post) => post._id !== postId)
