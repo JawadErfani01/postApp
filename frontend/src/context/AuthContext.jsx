@@ -1,6 +1,7 @@
 // src/context/AuthContext.jsx
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
+import axiosInstance from "../../utilities/axiosInstance";
 
 const AuthContext = createContext();
 
@@ -16,11 +17,7 @@ export const AuthProvider = ({ children }) => {
 
   const logoutUser = async () => {
     try {
-      await axios.post(
-        "https://postappapi.vercel.app/api/user/logout",
-        {},
-        { withCredentials: true }
-      );
+      await axiosInstance.post("/user/logout", {});
       setAccessToken(null);
       // Clear any access token or user data stored in state or context
     } catch (error) {
