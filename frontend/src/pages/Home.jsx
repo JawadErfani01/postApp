@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+
 import { Link } from "react-router-dom";
 import axiosInstance from "../../utilities/axiosInstance";
+import { usePost } from "../context/PostContext";
 
 const Home = () => {
-  const [posts, setPosts] = useState([]);
+  const { posts, setPosts } = usePost();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 

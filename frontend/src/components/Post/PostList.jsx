@@ -39,7 +39,7 @@ const PostList = () => {
     };
 
     fetchPosts();
-  }, [accessToken]);
+  }, []);
 
   const handleEdit = (post) => {
     setSelectedPost(post);

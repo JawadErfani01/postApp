@@ -110,10 +110,11 @@ export const logout = (req, res) => {
   try {
     res.clearCookie("refreshToken", {
       httpOnly: true,
-      secure: true,
-      sameSite: "Strict",
-      domain: "postappapi.vercel.app",
+      secure: isProduction,
+      sameSite: isProduction ? "None" : "Lax",
+      domain: isProduction ? "postappapi.vercel.app" : undefined,
     });
+
     res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
     res.status(500).json({ message: "Server error: " + error.message });
